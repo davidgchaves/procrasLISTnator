@@ -2,7 +2,7 @@
   (:require [procraslistnator.item.model :as items])
   (:require [ring.adapter.jetty :as ring]
             [ring.middleware.reload :refer [wrap-reload]]
-            [compojure.core :refer [defroutes GET]]
+            [compojure.core :refer [defroutes ANY GET POST PUT DELETE]]
             [compojure.route :refer [not-found]]))
 
 (def db "jdbc:postgresql://localhost/procraslistnator")
