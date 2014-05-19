@@ -18,10 +18,15 @@
   (fn [req]
     (handler (assoc req :procraslistnator/db db))))
 
+(defn wrap-server [handler]
+  (fn [req]
+    (assoc-in (handler req) [:headers "Server"] "Procraslistnator 101")))
+
 (def app
-  (wrap-db
-    (wrap-params
-      routes)))
+  (wrap-server
+    (wrap-db
+      (wrap-params
+        routes))))
 
 (defn -main [port]
   (items/create-table db)
