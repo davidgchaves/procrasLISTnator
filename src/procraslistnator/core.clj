@@ -14,9 +14,14 @@
   (GET "/pretty-request" [] handle-dump)
   (not-found "Page not found."))
 
+(defn wrap-db [handler]
+  (fn [req]
+    (handler (assoc req :procraslistnator/db db))))
+
 (def app
-  (wrap-params
-    routes))
+  (wrap-db
+    (wrap-params
+      routes)))
 
 (defn -main [port]
   (items/create-table db)
