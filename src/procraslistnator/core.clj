@@ -2,6 +2,7 @@
   (:require [procraslistnator.item.model :as items])
   (:require [ring.adapter.jetty :as ring]
             [ring.middleware.reload :refer [wrap-reload]]
+            [ring.middleware.params :refer [wrap-params]]
             [ring.handler.dump :refer [handle-dump]]
             [compojure.core :refer [defroutes ANY GET POST PUT DELETE]]
             [compojure.route :refer [not-found]]))
@@ -14,7 +15,8 @@
   (not-found "Page not found."))
 
 (def app
-  routes)
+  (wrap-params
+    routes))
 
 (defn -main [port]
   (items/create-table db)
