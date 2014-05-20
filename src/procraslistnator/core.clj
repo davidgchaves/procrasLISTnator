@@ -13,7 +13,9 @@
             [compojure.core :refer [defroutes ANY GET POST PUT DELETE]]
             [compojure.route :refer [not-found]]))
 
-(def db "jdbc:postgresql://localhost/procraslistnator")
+(def db (or
+          (System/getenv "DATABASE_URL")
+          "jdbc:postgresql://localhost/procraslistnator"))
 
 (defroutes routes
   (GET "/" [] "<h2>Home Page</h2>")
