@@ -2,6 +2,7 @@
   (:require [procraslistnator.item.model :as items]
             [procraslistnator.item.handler :refer [handle-index-items
                                                    handle-create-item
+                                                   handle-update-item
                                                    handle-delete-item]])
   (:require [ring.adapter.jetty :as ring]
             [ring.middleware.reload :refer [wrap-reload]]
@@ -19,6 +20,7 @@
 
   (GET "/items" [] handle-index-items)
   (POST "/items" [] handle-create-item)
+  (PUT "/items/:item-id" [] handle-update-item)
   (DELETE "/items/:item-id" [] handle-delete-item)
 
   (GET "/pretty-request" [] handle-dump)
@@ -32,7 +34,8 @@
   (fn [req]
     (assoc-in (handler req) [:headers "Server"] "Procraslistnator 101")))
 
-(def simulate-methods {"DELETE" :delete})
+(def simulate-methods {"PUT" :put
+                       "DELETE" :delete})
 
 (defn wrap-simulated-methods [handler]
   (fn [req]
