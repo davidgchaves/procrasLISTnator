@@ -1,6 +1,7 @@
 (ns procraslistnator.item.handler
   (:require [procraslistnator.item.model :refer [create-item
-                                                 read-items]])
+                                                 read-items
+                                                 delete-item]])
   (:require [procraslistnator.item.view :refer [items-page]]))
 
 (defn handle-index-items [req]
@@ -18,3 +19,15 @@
     {:status 302
      :headers {"Location" "/items"}
      :body ""}))
+
+(defn handle-delete-item [req]
+  (let [db (:procraslistnator/db req)
+        item-id (java.util.UUID/fromString (:item-id (:route-params req)))
+        exists? (delete-item db item-id)]
+    (if exists?
+      {:status 302
+       :headers {"Location" "/items"}
+       :body ""}
+      {:status 404
+       :headers {}
+       :body "The item doesn't exist."})))
