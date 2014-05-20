@@ -10,6 +10,7 @@
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.file-info :refer [wrap-file-info]]
             [ring.handler.dump :refer [handle-dump]]
+            [ring.util.response :refer [redirect]]
             [compojure.core :refer [defroutes ANY GET POST PUT DELETE]]
             [compojure.route :refer [not-found]]))
 
@@ -18,7 +19,7 @@
           "jdbc:postgresql://localhost/procraslistnator"))
 
 (defroutes routes
-  (GET "/" [] "<h2>Home Page</h2>")
+  (GET "/" [] (redirect "/items"))
 
   (GET "/items" [] handle-index-items)
   (POST "/items" [] handle-create-item)
