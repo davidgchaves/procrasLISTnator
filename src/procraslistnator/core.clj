@@ -1,7 +1,8 @@
 (ns procraslistnator.core
   (:require [procraslistnator.item.model :as items]
             [procraslistnator.item.handler :refer [handle-index-items
-                                                   handle-create-item]])
+                                                   handle-create-item
+                                                   handle-delete-item]])
   (:require [ring.adapter.jetty :as ring]
             [ring.middleware.reload :refer [wrap-reload]]
             [ring.middleware.params :refer [wrap-params]]
@@ -18,6 +19,7 @@
 
   (GET "/items" [] handle-index-items)
   (POST "/items" [] handle-create-item)
+  (DELETE "/items/:item-id" [] handle-delete-item)
 
   (GET "/pretty-request" [] handle-dump)
   (not-found "Page not found."))
