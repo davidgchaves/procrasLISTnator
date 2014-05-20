@@ -52,8 +52,8 @@
                [:tbody
                 (for [i items]
                   [:tr
-                   [:th (h (:name i))]
-                   [:th (h (:description i))]])]]
+                   [:td (h (:name i))]
+                   [:td (h (:description i))]])]]
               [:div.col-sm-offset-1 "There are no items."])]
 
            [:div.col-sm-6
