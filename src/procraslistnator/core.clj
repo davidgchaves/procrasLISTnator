@@ -32,13 +32,23 @@
   (fn [req]
     (assoc-in (handler req) [:headers "Server"] "Procraslistnator 101")))
 
+(def simulate-methods {"DELETE" :delete})
+
+(defn wrap-simulated-methods [handler]
+  (fn [req]
+    (if-let [method (and (= :post (:request-method req))
+                         (simulate-methods (get-in req [:params "_method"])))]
+      (handler (assoc req :request-method method))
+      (handler req))))
+
 (def app
   (wrap-server
     (wrap-file-info
       (wrap-resource
         (wrap-db
           (wrap-params
-            routes))
+            (wrap-simulated-methods
+              routes)))
         "static"))))
 
 (defn -main [port]
