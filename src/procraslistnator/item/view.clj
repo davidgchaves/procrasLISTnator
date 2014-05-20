@@ -41,6 +41,20 @@
        {:type :submit
         :value "Delete"}]]]))
 
+(defn update-item [id checked]
+  (html
+    [:form
+     {:method "POST" :action (str "/items/" id)}
+     [:input {:type :hidden
+              :name "_method"
+              :value "PUT"}]
+     [:input {:type :hidden
+              :name "checked"
+              :value (if checked "false" "true")}]
+     [:div.btn-group
+      [:button.btn.btn-primary.btn-xs
+       (if checked "DONE" "TODO")]]]))
+
 (defn items-page [items]
   (html5 {:lang :en}
          [:head
@@ -60,12 +74,14 @@
                [:thead
                 [:tr
                  [:th.col-sm-2]
+                 [:th.col-sm-2]
                  [:th "Name"]
                  [:th "Description"]]]
                [:tbody
                 (for [i items]
                   [:tr
                    [:td (delete-item (:id i))]
+                   [:td (update-item (:id i) (:checked i))]
                    [:td (h (:name i))]
                    [:td (h (:description i))]])]]
               [:div.col-sm-offset-1 "There are no items."])]
